@@ -175,13 +175,15 @@ def main():
     connect_to_wifi()
     api_key = get_credential_from_file("API_KEY.txt", "API key")
     latitude, longitude = fetch_coordinates(api_key)
-    icon = fetch_weather(api_key, latitude, longitude)
-    colour_1, colour_2 = CONDITION_COLOURS.get(icon, ((0, 0, 0), (255, 255, 255)))
 
     while True:
-        led.fill(tween_colours(colour_1, colour_2))
-        led.write()
-        time.sleep_ms(50)
+        icon = fetch_weather(api_key, latitude, longitude)
+        colour_1, colour_2 = CONDITION_COLOURS.get(icon, ((0, 0, 0), (255, 255, 255)))
+
+        for _ in range(6000):
+            led.fill(tween_colours(colour_1, colour_2))
+            led.write()
+            time.sleep_ms(50)
 
 
 if __name__ == "__main__":
